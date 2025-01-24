@@ -1,0 +1,54 @@
+-- 1280. Students and Examinations
+-- https://leetcode.com/problems/students-and-examinations/?envType=study-plan-v2&envId=top-sql-50
+
+/*
+Table: Students
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| student_id    | int     |
+| student_name  | varchar |
++---------------+---------+
+student_id is the primary key (column with unique values) for this table.
+Each row of this table contains the ID and the name of one student in the school.
+ 
+
+Table: Subjects
+
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| subject_name | varchar |
++--------------+---------+
+subject_name is the primary key (column with unique values) for this table.
+Each row of this table contains the name of one subject in the school.
+ 
+
+Table: Examinations
+
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| student_id   | int     |
+| subject_name | varchar |
++--------------+---------+
+There is no primary key (column with unique values) for this table. It may contain duplicates.
+Each student from the Students table takes every course from the Subjects table.
+Each row of this table indicates that a student with ID student_id attended the exam of subject_name.
+*/
+
+SELECT st.student_id
+    , st.student_name
+    , su.subject_name
+    , COUNT(e.student_id) AS attended_exams
+FROM students AS st
+    LEFT JOIN subjects AS su
+        ON 1=1
+    LEFT JOIN examinations AS e
+        ON st.student_id = e.student_id
+            AND su.subject_name = e.subject_name
+WHERE su.subject_name IS NOT NULL
+GROUP BY 1, 2, 3
+ORDER BY student_id, subject_name
+;
